@@ -19,13 +19,11 @@ def facebookAPI(token, pageInput):
     #connect to Facebook API
     API = facebook.GraphAPI(token)
     
+    #get the Facebook data as JSON
     myFieldsList = ["message","created_time","likes.summary(True)","reactions.summary(True)","comments.summary(True)","shares.summary(True)","permalink_url","full_picture"]
     myFields = ",".join(myFieldsList)
-    
+
     pageJson = API.get_object(pageUserName, fields = myFields)
-    
-    
-    
     #create post class which is used to store data for each Facebook post
     class post:
         def __init__(self, URLparameter, pictureParameter, dateParameter, likesParameter, reactionsParameter, commentsParameter, sharesParameter, captionParameter, commentTextParameter):
@@ -137,51 +135,71 @@ def facebookAPI(token, pageInput):
     #list to hold posts
     postList = []
     
+
+
     
-    #collect post data
-    for i in range(numberOfPosts):
+    
+    #used for paginating (each request outputs 25 posts per page)
+    while True:
         try:
-            comments = pageJson["data"][i]["comments"]["summary"]["total_count"]
-        except:
-            comments = 0
-        
-        if comments > 0:
-            combinedComments = []
-            for x in range(comments):
-                combinedComments.append(pageJson["data"][i]["comments"]["data"][x]["message"])
-        else:
-            combinedComments = []
-        
-        try:
-            URL = pageJson["data"][i]["permalink_url"]
-        except:
-            URL = "null" 
-        try:
-            picture = pageJson["data"][i]["full_picture"]
-        except:
-            picture = "null"
-        try:
-            createdTime = pageJson["data"][i]["created_time"]
-        except:
-            createdTime = "null"
-        try:
-            likes = pageJson["data"][i]["likes"]["summary"]["total_count"]
-        except:
-            likes = 0
-        try:
-            reactions = pageJson["data"][i]["reactions"]["summary"]["total_count"]
-        except:
-            reactions = 0
-        try:
-            shares = pageJson["data"][i]["shares"]["count"]
-        except:
-            shares = 0
-        try:
-            caption = pageJson["data"][i]["message"]
-        except:
-            caption = "null"
-            
-        postList.append(post(URL, picture, createdTime, likes, reactions, comments, shares, caption, combinedComments))                         
+            #collect post data
+            for i in range(numberOfPosts):
+                try:
+                    comments = pageJson["data"][i]["comments"]["summary"]["total_count"]
+                except:
+                    comments = 0
+                
+                if comments > 0:
+                    combinedComments = []
+                    for x in range(comments):
+                        combinedComments.append(pageJson["data"][i]["comments"]["data"][x]["message"])
+                else:
+                    combinedComments = []
+                
+                try:
+                    URL = pageJson["data"][i]["permalink_url"]
+                except:
+                    URL = "null" 
+                try:
+                    picture = pageJson["data"][i]["full_picture"]
+                except:
+                    picture = "null"
+                try:
+                    createdTime = pageJson["data"][i]["created_time"]
+                except:
+                    createdTime = "null"
+                try:
+                    likes = pageJson["data"][i]["likes"]["summary"]["total_count"]
+                except:
+                    likes = 0
+                try:
+                    reactions = pageJson["data"][i]["reactions"]["summary"]["total_count"]
+                except:
+                    reactions = 0
+                try:
+                    shares = pageJson["data"][i]["shares"]["count"]
+                except:
+                    shares = 0
+                try:
+                    caption = pageJson["data"][i]["message"]
+                except:
+                    caption = "null"
+                    
+                postList.append(post(URL, picture, createdTime, likes, reactions, comments, shares, caption, combinedComments))
+                
+                # Attempt to make a request to the next page of data, if it exists.
+                nextPage = pageJson["paging"]["next"]
+
+        except KeyError:
+            # When there are no more pages (['paging']['next']), break from the
+            # loop and end the script.
+            break
+
+
+
+
+
+                             
     
     #for printing all of the post data
     def printPostData(postParameter):
