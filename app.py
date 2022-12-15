@@ -139,64 +139,52 @@ def facebookAPI(token, pageInput):
     postList = []
     
 
-
-    
-    
-    #used for paginating (each request outputs 25 posts per page)
-    while True:
+    for i in range(numberOfPosts):
         try:
-            #collect post data
-            for i in range(numberOfPosts):
-                try:
-                    comments = pageJson["data"][i]["comments"]["summary"]["total_count"]
-                except:
-                    comments = 0
-                
-                if comments > 0:
-                    combinedComments = []
-                    for x in range(comments):
-                        combinedComments.append(pageJson["data"][i]["comments"]["data"][x]["message"])
-                else:
-                    combinedComments = []
-                
-                try:
-                    URL = pageJson["data"][i]["permalink_url"]
-                except:
-                    URL = "null" 
-                try:
-                    picture = pageJson["data"][i]["full_picture"]
-                except:
-                    picture = "null"
-                try:
-                    createdTime = pageJson["data"][i]["created_time"]
-                except:
-                    createdTime = "null"
-                try:
-                    likes = pageJson["data"][i]["likes"]["summary"]["total_count"]
-                except:
-                    likes = 0
-                try:
-                    reactions = pageJson["data"][i]["reactions"]["summary"]["total_count"]
-                except:
-                    reactions = 0
-                try:
-                    shares = pageJson["data"][i]["shares"]["count"]
-                except:
-                    shares = 0
-                try:
-                    caption = pageJson["data"][i]["message"]
-                except:
-                    caption = "null"
-                    
-                postList.append(post(URL, picture, createdTime, likes, reactions, comments, shares, caption, combinedComments))
-                
-                # Attempt to make a request to the next page of data, if it exists.
-                nextPage = pageJson["paging"]["next"]
-
-        except KeyError:
-            # When there are no more pages (['paging']['next']), break from the
-            # loop and end the script.
-            break
+            comments = pageJson["data"][i]["comments"]["summary"]["total_count"]
+        except:
+            comments = 0
+        
+        if comments > 0:
+            combinedComments = []
+            for x in range(comments):
+                combinedComments.append(pageJson["data"][i]["comments"]["data"][x]["message"])
+        else:
+            combinedComments = []
+        
+        try:
+            URL = pageJson["data"][i]["permalink_url"]
+        except:
+            URL = "null" 
+        try:
+            picture = pageJson["data"][i]["full_picture"]
+        except:
+            picture = "null"
+        try:
+            createdTime = pageJson["data"][i]["created_time"]
+        except:
+            createdTime = "null"
+        try:
+            likes = pageJson["data"][i]["likes"]["summary"]["total_count"]
+        except:
+            likes = 0
+        try:
+            reactions = pageJson["data"][i]["reactions"]["summary"]["total_count"]
+        except:
+            reactions = 0
+        try:
+            shares = pageJson["data"][i]["shares"]["count"]
+        except:
+            shares = 0
+        try:
+            caption = pageJson["data"][i]["message"]
+        except:
+            caption = "null"
+            
+        postList.append(post(URL, picture, createdTime, likes, reactions, comments, shares, caption, combinedComments))
+        
+        # Attempt to make a request to the next page of data, if it exists.
+        nextPage = pageJson["paging"]["next"]
 
 
 
