@@ -1,0 +1,6 @@
+
+python-dotenv
+yelpapi
+pandas
+numpy
+openpyxl
