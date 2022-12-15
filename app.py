@@ -24,6 +24,9 @@ def facebookAPI(token, pageInput):
     myFields = ",".join(myFieldsList)
 
     pageJson = API.get_object(pageUserName, fields = myFields)
+    
+    
+    
     #create post class which is used to store data for each Facebook post
     class post:
         def __init__(self, URLparameter, pictureParameter, dateParameter, likesParameter, reactionsParameter, commentsParameter, sharesParameter, captionParameter, commentTextParameter):
@@ -244,6 +247,9 @@ def facebookAPI(token, pageInput):
     sheet.cell(row = 1, column = 9).value = "Comments" 
     sheet.cell(row = 1, column = 10).value = "Shares" 
     sheet.cell(row = 1, column = 11).value = "Caption" 
+    #sheet.cell(row = 1, column = 12).value = "Words" 
+    #sheet.cell(row = 1, column = 13).value = "Hashtags" 
+    #sheet.cell(row = 1, column = 14).value = "Comments Text" 
 
     excelFile.save(file_name)
     
@@ -259,6 +265,9 @@ def facebookAPI(token, pageInput):
     sheet.column_dimensions['I'].width = 8.26
     sheet.column_dimensions['J'].width = 8.26
     sheet.column_dimensions['K'].width = 20.63
+    #sheet.column_dimensions['L'].width = 8.26
+    #sheet.column_dimensions['M'].width = 8.26
+    #sheet.column_dimensions['N'].width = 15.53
     
     excelFile.save(file_name)
     
@@ -283,72 +292,54 @@ def facebookAPI(token, pageInput):
         #    sheet.cell(row = lastRowFree, column = 14 + x).value = postList[i].getCommentText()[x]
         
         lastRowFree += 1
-
-    excelFile.save(file_name)
-
-    #print the words to the Excel file
-    sheet2 = excelFile.create_sheet(title="Words")
-
-    sheet2.cell(row = 1, column = 1).value = "Post_Id" 
-    sheet2.cell(row = 1, column = 2).value = "Words" 
-    
-    sheet2.column_dimensions['A'].width = 7.8
-    sheet2.column_dimensions['B'].width = 21.22
-
-    lastRowFree = 2
-
-    for i in range(len(postList)):
-        listOfWords = postList[i].getWords()["words"]
-        for x in range(len(listOfWords)):
-            sheet2.cell(row = lastRowFree, column = 1).value = i + 1
-            sheet2.cell(row = lastRowFree, column = 2).value = listOfWords[x]
+        """
+        for x in range(len(postList[i].getWords()["words"])):
+            sheet.cell(row = lastRowFree, column = 12).value = postList[i].getWords()["words"][x]
+            
+            sheet.cell(row = lastRowFree, column = 1).value = i + 1
+            sheet.cell(row = lastRowFree, column = 2).value = postList[i].getURL()
+            sheet.cell(row = lastRowFree, column = 3).value = postList[i].getPicture()
+            sheet.cell(row = lastRowFree, column = 4).value = postList[i].getDate()["date"]
+            sheet.cell(row = lastRowFree, column = 5).value = postList[i].getDate()["weekday"]
+            sheet.cell(row = lastRowFree, column = 6).value = postList[i].getTime() 
+            sheet.cell(row = lastRowFree, column = 7).value = postList[i].getLikes()
+            sheet.cell(row = lastRowFree, column = 8).value = postList[i].getReactions()
+            sheet.cell(row = lastRowFree, column = 9).value = postList[i].getComments()
+            sheet.cell(row = lastRowFree, column = 10).value = postList[i].getShares()
             lastRowFree += 1
-
-    excelFile.save(file_name)
-
-
-    #print the hashtags to the Excel file
-    sheet2 = excelFile.create_sheet(title="Hashtags")
-
-    sheet2.cell(row = 1, column = 1).value = "Post_Id" 
-    sheet2.cell(row = 1, column = 2).value = "Hashtags" 
-    
-    sheet2.column_dimensions['A'].width = 7.8
-    sheet2.column_dimensions['B'].width = 21.22
-
-    lastRowFree = 2
-
-    for i in range(len(postList)):
-        listOfHashtags = postList[i].getWords()["hashtags"]
-        for x in range(len(listOfHashtags)):
-            sheet2.cell(row = lastRowFree, column = 1).value = i + 1
-            sheet2.cell(row = lastRowFree, column = 2).value = listOfHashtags[x]
+            
+        for x in range(len(postList[i].getWords()["hashtags"])):
+            sheet.cell(row = lastRowFree, column = 13).value = postList[i].getWords()["hashtags"][x]
+            
+            sheet.cell(row = lastRowFree, column = 1).value = i + 1
+            sheet.cell(row = lastRowFree, column = 2).value = postList[i].getURL()
+            sheet.cell(row = lastRowFree, column = 3).value = postList[i].getPicture()
+            sheet.cell(row = lastRowFree, column = 4).value = postList[i].getDate()["date"]
+            sheet.cell(row = lastRowFree, column = 5).value = postList[i].getDate()["weekday"]
+            sheet.cell(row = lastRowFree, column = 6).value = postList[i].getTime() 
+            sheet.cell(row = lastRowFree, column = 7).value = postList[i].getLikes()
+            sheet.cell(row = lastRowFree, column = 8).value = postList[i].getReactions()
+            sheet.cell(row = lastRowFree, column = 9).value = postList[i].getComments()
+            sheet.cell(row = lastRowFree, column = 10).value = postList[i].getShares()
             lastRowFree += 1
-
-    excelFile.save(file_name)
-
-
-    #print the words to the Excel file
-    sheet2 = excelFile.create_sheet(title="Comments")
-
-    sheet2.cell(row = 1, column = 1).value = "Post_Id" 
-    sheet2.cell(row = 1, column = 2).value = "Words" 
-    
-    sheet2.column_dimensions['A'].width = 7.8
-    sheet2.column_dimensions['B'].width = 21.22
-
-    lastRowFree = 2
-
-    for i in range(len(postList)):
-        commentTextList = postList[i].getCommentText()
-        for x in range(len(commentTextList)):
-            sheet2.cell(row = lastRowFree, column = 1).value = i + 1
-            sheet2.cell(row = lastRowFree, column = 2).value = commentTextList[x]
+            
+        for x in range(len(postList[i].getCommentText())):
+            sheet.cell(row = lastRowFree, column = 14).value = postList[i].getCommentText()[x]
+            
+            sheet.cell(row = lastRowFree, column = 1).value = i + 1
+            sheet.cell(row = lastRowFree, column = 2).value = postList[i].getURL()
+            sheet.cell(row = lastRowFree, column = 3).value = postList[i].getPicture()
+            sheet.cell(row = lastRowFree, column = 4).value = postList[i].getDate()["date"]
+            sheet.cell(row = lastRowFree, column = 5).value = postList[i].getDate()["weekday"]
+            sheet.cell(row = lastRowFree, column = 6).value = postList[i].getTime() 
+            sheet.cell(row = lastRowFree, column = 7).value = postList[i].getLikes()
+            sheet.cell(row = lastRowFree, column = 8).value = postList[i].getReactions()
+            sheet.cell(row = lastRowFree, column = 9).value = postList[i].getComments()
+            sheet.cell(row = lastRowFree, column = 10).value = postList[i].getShares()
             lastRowFree += 1
-
+                
     excelFile.save(file_name)
-
-    return file_name
+"""
 
 
 #run the function
