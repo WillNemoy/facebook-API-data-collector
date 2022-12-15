@@ -211,7 +211,7 @@ def facebookAPI(token, pageInput):
     sheet = excelFile.active
     
     #sheet name
-    sheet.title = "Data"
+    sheet.title = "Posts"
     
     #add headers
     sheet.cell(row = 1, column = 1).value = "Post" 
@@ -225,9 +225,10 @@ def facebookAPI(token, pageInput):
     sheet.cell(row = 1, column = 9).value = "Comments" 
     sheet.cell(row = 1, column = 10).value = "Shares" 
     sheet.cell(row = 1, column = 11).value = "Caption" 
-    sheet.cell(row = 1, column = 12).value = "Words" 
-    sheet.cell(row = 1, column = 13).value = "Hashtags" 
-    sheet.cell(row = 1, column = 14).value = "Comments Text" 
+    #sheet.cell(row = 1, column = 12).value = "Words" 
+    #sheet.cell(row = 1, column = 13).value = "Hashtags" 
+    #sheet.cell(row = 1, column = 14).value = "Comments Text" 
+
     excelFile.save(file_name)
     
     #adjust column widths
@@ -242,9 +243,9 @@ def facebookAPI(token, pageInput):
     sheet.column_dimensions['I'].width = 8.26
     sheet.column_dimensions['J'].width = 8.26
     sheet.column_dimensions['K'].width = 20.63
-    sheet.column_dimensions['L'].width = 8.26
-    sheet.column_dimensions['M'].width = 8.26
-    sheet.column_dimensions['N'].width = 15.53
+    #sheet.column_dimensions['L'].width = 8.26
+    #sheet.column_dimensions['M'].width = 8.26
+    #sheet.column_dimensions['N'].width = 15.53
     
     excelFile.save(file_name)
     
@@ -269,7 +270,7 @@ def facebookAPI(token, pageInput):
         #    sheet.cell(row = lastRowFree, column = 14 + x).value = postList[i].getCommentText()[x]
         
         lastRowFree += 1
-        
+        """
         for x in range(len(postList[i].getWords()["words"])):
             sheet.cell(row = lastRowFree, column = 12).value = postList[i].getWords()["words"][x]
             
@@ -316,7 +317,7 @@ def facebookAPI(token, pageInput):
             lastRowFree += 1
                 
     excelFile.save(file_name)
-
+"""
 
 
 #run the function
