@@ -1,6 +1,6 @@
 
 python-dotenv
-yelpapi
+facebook-sdk
 pandas
 numpy
 openpyxl
